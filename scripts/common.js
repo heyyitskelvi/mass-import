@@ -41,14 +41,18 @@ export class Common {
       event.preventDefault();
       event.stopPropagation();
       
-      const fp = new FilePicker({
+      // V13 FIX: Use namespaced FilePicker instead of global to avoid deprecation warning
+      const FilePickerClass = foundry.applications.apps.FilePicker;
+
+      const fp = new FilePickerClass({
         type: type,
         current: input.value,
         callback: (path) => {
           input.value = path;
-          if (sourceData && FilePicker.lastBrowse) {
-             sourceData.activeSource = FilePicker.lastBrowse.source;
-             sourceData.activeBucket = FilePicker.lastBrowse.bucket;
+          // Check static property on the correct class
+          if (sourceData && FilePickerClass.lastBrowse) {
+             sourceData.activeSource = FilePickerClass.lastBrowse.source;
+             sourceData.activeBucket = FilePickerClass.lastBrowse.bucket;
              sourceData.path = path;
           }
         }

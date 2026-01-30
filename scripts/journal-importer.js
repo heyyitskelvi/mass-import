@@ -9,6 +9,8 @@ export class JournalImporter {
 
     // 1. Load User Preferences (Defaults if none exist)
     const savedConfig = game.user.getFlag('mass-import', 'journalConfig') || {};
+    
+    // --- O path é carregado aqui via savedConfig ---
     const defaults = foundry.utils.mergeObject({
         path: '',
         mode: 0,
@@ -41,7 +43,7 @@ export class JournalImporter {
         // Populate inputs with saved defaults
         if (defaults.path) {
             html.querySelector("input[name='folder-path']").value = defaults.path;
-            sourceData.path = defaults.path; // update source data context
+            sourceData.path = defaults.path; 
         }
         
         const modeSelect = html.querySelector("select[name='select_import_type']");
@@ -79,11 +81,14 @@ export class JournalImporter {
     const config = JournalImporter.extractConfig(html);
     if (!config.path) return ui.notifications.error("Path is required.");
 
-    // Save preferences for next time
+    // --- SALVAR A ÚLTIMA PASTA E CONFIGURAÇÃO ---
     await game.user.setFlag('mass-import', 'journalConfig', config);
 
     try {
-        const result = await FilePicker.browse(sourceData.activeSource, config.path, { bucket: sourceData.activeBucket });
+        // V13 FIX: Use namespaced FilePicker
+        const FilePickerClass = foundry.applications.apps.FilePicker;
+        const result = await FilePickerClass.browse(sourceData.activeSource, config.path, { bucket: sourceData.activeBucket });
+        
         let files = result.files;
         
         if (!files.length) return ui.notifications.warn("No files found.");
@@ -151,7 +156,6 @@ export class JournalImporter {
         
         if (type === 'image') pageData.image = { caption: name };
         if (type === 'video') pageData.video = config.video;
-        // PDF handles src automatically in pageData
         
         return pageData;
     });

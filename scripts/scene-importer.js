@@ -12,9 +12,12 @@ export class SceneImporter {
       path: ''
     };
 
+    // --- CARREGAR PREFERÊNCIA SALVA ---
+    const lastFolder = game.user.getFlag('mass-import', 'lastSceneFolder') || '';
+
     // 1. Create Instance
     const dialog = new foundry.applications.api.DialogV2({
-      window: { title: "Import Images to Scenes", icon: "fas fa-map" },
+      window: { title: "Import Images/Videos to Scenes", icon: "fas fa-map" },
       content: htmlContent,
       buttons: [
         {
@@ -34,6 +37,16 @@ export class SceneImporter {
     // 2. Attach Listener explicitly
     dialog.addEventListener('render', (event) => {
         const html = dialog.element;
+        
+        // --- APLICAR PREFERÊNCIA NO INPUT ---
+        if (lastFolder) {
+            const folderInput = html.querySelector("input[name='folder-path']");
+            if (folderInput) {
+                folderInput.value = lastFolder;
+                sourceData.path = lastFolder;
+            }
+        }
+
         // Bind FilePicker
         Common.bindFilePicker(html, ".picker-button", "input[name='folder-path']", "folder", sourceData);
         
@@ -56,19 +69,27 @@ export class SceneImporter {
     }
 
     try {
+      // --- SALVAR A ÚLTIMA PASTA USADA ---
+      await game.user.setFlag('mass-import', 'lastSceneFolder', folderPath);
+
+      // Find or Create Folder
       let folder = game.folders.find(f => f.name === folderName && f.type === "Scene");
       if (!folder) {
         folder = await Folder.create({ name: folderName, type: "Scene" });
       }
 
       const browseOptions = { bucket: sourceData.activeBucket || '' };
-      const filesResult = await FilePicker.browse(sourceData.activeSource, folderPath, browseOptions);
+      
+      // V13 FIX: Use namespaced FilePicker.browse
+      const FilePickerClass = foundry.applications.apps.FilePicker;
+      const filesResult = await FilePickerClass.browse(sourceData.activeSource, folderPath, browseOptions);
       
       if (!filesResult.files || filesResult.files.length === 0) {
         ui.notifications.warn("Mass Import: No files found in the selected folder.");
         return;
       }
 
+      // Collect Defaults
       const defaults = {
         folder: folder.id,
         grid: {
@@ -84,17 +105,28 @@ export class SceneImporter {
         fogExploration: html.querySelector("input[name='fog_exploration']").checked
       };
 
-      ui.notifications.info(`Mass Import: Starting import of ${filesResult.files.length} scenes...`);
+      ui.notifications.info(`Mass Import: Starting import of ${filesResult.files.length} files...`);
 
       let count = 0;
       for (const filePath of filesResult.files) {
-        if (!Common.isValidImage(filePath)) continue; 
+        const isImage = Common.isValidImage(filePath);
+        const isVideo = Common.isValidVideo(filePath);
+
+        if (!isImage && !isVideo) continue; 
         
-        await SceneImporter.createScene(filePath, defaults);
-        count++;
+        try {
+            await SceneImporter.createScene(filePath, defaults);
+            count++;
+        } catch (innerErr) {
+            console.error(`Mass Import | Failed to import ${filePath}:`, innerErr);
+        }
       }
 
-      ui.notifications.info(`Mass Import: Successfully created ${count} scenes.`);
+      if (count === 0) {
+          ui.notifications.warn("Mass Import: No valid images or videos were imported.");
+      } else {
+          ui.notifications.info(`Mass Import: Successfully created ${count} scenes.`);
+      }
 
     } catch (err) {
       console.error(err);
@@ -102,16 +134,19 @@ export class SceneImporter {
     }
   }
 
-  static async createScene(imagePath, defaults) {
-    const tex = await loadTexture(imagePath);
-    const width = tex.width;
-    const height = tex.height;
+  static async createScene(filePath, defaults) {
+    // V13 FIX: Use namespaced loadTexture instead of global
+    const tex = await foundry.canvas.loadTexture(filePath);
+    
+    // Safety check for dimensions
+    const width = tex.width || 1920; 
+    const height = tex.height || 1080;
 
     const sceneData = {
-      name: Common.splitPath(imagePath),
+      name: Common.splitPath(filePath),
       width: width,
       height: height,
-      background: { src: imagePath },
+      background: { src: filePath },
       grid: { ...defaults.grid },
       padding: 0.25,
       folder: defaults.folder,

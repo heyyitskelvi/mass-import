@@ -1,3 +1,7 @@
+# 0.2.2
+- fix: https://github.com/brunocalado/mass-import/issues/13
+- removed Deprecated warnings
+
 0.2.0
 Smart Persistence: Journal Importer now automatically saves and remembers your last configuration settings (path, mode, dimensions, video options).
 

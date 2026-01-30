@@ -8,6 +8,10 @@ export class DeckImporter {
     
     const sourceData = { activeSource: 'data', activeBucket: '', path: '' };
 
+    // --- CARREGAR PREFERÊNCIAS SALVAS ---
+    const lastFolder = game.user.getFlag('mass-import', 'lastDeckFolder') || '';
+    const lastBackImg = game.user.getFlag('mass-import', 'lastDeckBackImage') || '';
+
     // 1. Create Instance
     const dialog = new foundry.applications.api.DialogV2({
       window: { title: "Import Folder to Card Deck", icon: "fas fa-cards" },
@@ -28,6 +32,20 @@ export class DeckImporter {
     // 2. Attach Listener explicitly (This fixes the buttons not working)
     dialog.addEventListener('render', (event) => {
         const html = dialog.element;
+
+        // --- APLICAR PREFERÊNCIAS NOS INPUTS ---
+        if (lastFolder) {
+            const folderInput = html.querySelector("input[name='folder-path']");
+            if(folderInput) {
+                folderInput.value = lastFolder;
+                sourceData.path = lastFolder;
+            }
+        }
+        if (lastBackImg) {
+             const backInput = html.querySelector("input[name='card-back-image']");
+             if(backInput) backInput.value = lastBackImg;
+        }
+
         Common.bindFilePicker(html, ".picker-button-folder", "input[name='folder-path']", "folder", sourceData);
         Common.bindFilePicker(html, ".picker-button-image", "input[name='card-back-image']", "image", null);
     });
@@ -49,7 +67,13 @@ export class DeckImporter {
     if (!folderPath) return ui.notifications.error("Select a folder path!");
 
     try {
-        const result = await FilePicker.browse(sourceData.activeSource, folderPath, { bucket: sourceData.activeBucket });
+        // --- SALVAR AS ÚLTIMAS OPÇÕES USADAS ---
+        await game.user.setFlag('mass-import', 'lastDeckFolder', folderPath);
+        if (backImg) await game.user.setFlag('mass-import', 'lastDeckBackImage', backImg);
+
+        // V13 FIX: Use namespaced FilePicker
+        const FilePickerClass = foundry.applications.apps.FilePicker;
+        const result = await FilePickerClass.browse(sourceData.activeSource, folderPath, { bucket: sourceData.activeBucket });
         
         const deck = await Cards.create({
             name: deckName,
