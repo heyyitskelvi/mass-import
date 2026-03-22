@@ -1,37 +1,90 @@
-.mass-import-dialog .form-group label {
-    font-weight: bold;
-    color: var(--color-text-dark-primary);
+/* ============================================================
+   Mass Import — Isolated CSS
+   Scoped under .application.mass-import (AppV2 root element).
+   Uses module-owned CSS variables (--mi-*) with hardcoded values
+   to prevent system CSS from making text unreadable.
+   The contentClasses override in DialogV2 removes standard-form,
+   cutting off the main vector for system style interference.
+   ============================================================ */
+
+/* --- Module palette on the application root ---
+   Hardcoded values ensure readability regardless of what
+   a game system does to Foundry's native CSS variables. */
+.application.mass-import {
+    --mi-text: #e0ddd4;
+    --mi-text-muted: #a8a49a;
+    --mi-input-bg: #1a1a1a;
+    --mi-input-text: #f0ede2;
+    --mi-border: #555;
+    --mi-bg: #242424;
 }
 
-.mass-import-dialog .form-header {
+/* --- Force both background AND text on window-content ---
+   Controls the full visual context so the dialog is always
+   readable regardless of the system's color scheme. */
+.application.mass-import .window-content {
+    background-color: var(--mi-bg) !important;
+    color: var(--mi-text) !important;
+}
+
+.application.mass-import label,
+.application.mass-import h3,
+.application.mass-import p {
+    color: inherit !important;
+}
+
+/* --- Section header --- */
+.application.mass-import .mi-form-header {
     margin-bottom: 0.5rem;
-    border-bottom: 2px solid var(--color-border-dark-secondary);
-    color: var(--color-text-dark-primary);
-    font-size: var(--font-size-16);
-    font-family: var(--font-header);
-    padding-bottom: 3px;
     margin-top: 10px;
+    padding-bottom: 3px;
+    border-bottom: 2px solid var(--mi-border);
+    font-size: 1rem;
+    font-family: var(--font-header, serif);
 }
 
-.mass-import-dialog .form-header:first-child {
+.application.mass-import .mi-form-header:first-child {
     margin-top: 0;
 }
 
-.mass-import-dialog .notes {
-    font-size: var(--font-size-12);
-    color: var(--color-text-dark-secondary);
-    margin-bottom: 5px;
-    font-style: italic;
+/* --- Form row --- */
+.application.mass-import .mi-form-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 2px;
 }
 
-.mass-import-dialog .picker-group {
+.application.mass-import .mi-form-group > label:first-child {
+    flex: 0 0 140px;
+    font-weight: bold;
+}
+
+/* --- Field container --- */
+.application.mass-import .mi-form-fields {
     display: flex;
     align-items: center;
     gap: 5px;
+    flex: 1;
 }
 
-/* Align checkboxes nicely in row */
-.mass-import-dialog .form-fields label.checkbox {
+.application.mass-import .mi-form-fields > label {
+    white-space: nowrap;
+}
+
+/* --- Inputs and selects --- */
+.application.mass-import input[type="text"],
+.application.mass-import input[type="number"],
+.application.mass-import select {
+    flex: 1;
+    min-width: 0;
+    color: var(--mi-input-text) !important;
+    background-color: var(--mi-input-bg) !important;
+    border: 1px solid var(--mi-border) !important;
+}
+
+/* --- Checkbox label --- */
+.application.mass-import label.mi-checkbox {
     flex: 1;
     display: flex;
     align-items: center;
@@ -39,12 +92,51 @@
     gap: 5px;
     margin: 0;
     white-space: nowrap;
+    font-weight: normal;
 }
 
-/* Compact input spacing */
-.mass-import-dialog .form-fields > * {
-    margin-right: 5px;
+/* --- FilePicker row --- */
+.application.mass-import .mi-picker-group {
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
-.mass-import-dialog .form-fields > *:last-child {
-    margin-right: 0;
+
+/* --- Notes / hint text --- */
+.application.mass-import .mi-notes {
+    font-size: 0.75rem;
+    color: var(--mi-text-muted) !important;
+    margin: 2px 0 0;
+    font-style: italic;
+}
+
+/* --- Flex utilities (replaces inline styles) --- */
+.application.mass-import .mi-flex-1 {
+    flex: 1;
+}
+
+.application.mass-import .mi-flex-2 {
+    flex: 2;
+}
+
+/* --- Color picker input --- */
+.application.mass-import .mi-color-picker {
+    height: 24px;
+    width: 40px;
+    padding: 0;
+    border: none;
+    flex: 0 0 auto;
+}
+
+/* --- Alpha slider group --- */
+.application.mass-import .mi-alpha-group {
+    flex: 2;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.application.mass-import .mi-alpha-group label {
+    font-weight: normal;
+    font-size: 0.9em;
 }

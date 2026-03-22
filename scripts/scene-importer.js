@@ -3,7 +3,7 @@ import { Common } from './common.js';
 export class SceneImporter {
 
   static async imageToScene() {
-    const templatePath = `modules/mass-import/templates/image-to-scene-dialog.html`;
+    const templatePath = `modules/mass-import/templates/image-to-scene-dialog.hbs`;
     const htmlContent = await foundry.applications.handlebars.renderTemplate(templatePath, {});
 
     const sourceData = {
@@ -17,7 +17,12 @@ export class SceneImporter {
 
     // 1. Create Instance
     const dialog = new foundry.applications.api.DialogV2({
-      window: { title: "Import Images/Videos to Scenes", icon: "fas fa-map" },
+      classes: ["mass-import"],
+      window: {
+        title: "Import Images/Videos to Scenes",
+        icon: "fas fa-map",
+        contentClasses: ["dialog-content"]
+      },
       content: htmlContent,
       buttons: [
         {

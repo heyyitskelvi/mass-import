@@ -88,4 +88,4 @@ Check the **Macros - Mass Import** compendium for these additional utilities:
 
 ## 📜 License
 
-This module is licensed under the [MIT License](LICENSE).
+* **Code License:** GNU GPLv3.

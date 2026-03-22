@@ -3,7 +3,7 @@ import { Common } from './common.js';
 export class DeckImporter {
 
   static async imageToDeck() {
-    const templatePath = `modules/mass-import/templates/image-to-deck-dialog.html`;
+    const templatePath = `modules/mass-import/templates/image-to-deck-dialog.hbs`;
     const htmlContent = await foundry.applications.handlebars.renderTemplate(templatePath, {});
     
     const sourceData = { activeSource: 'data', activeBucket: '', path: '' };
@@ -14,7 +14,12 @@ export class DeckImporter {
 
     // 1. Create Instance
     const dialog = new foundry.applications.api.DialogV2({
-      window: { title: "Import Folder to Card Deck", icon: "fas fa-cards" },
+      classes: ["mass-import"],
+      window: {
+        title: "Import Folder to Card Deck",
+        icon: "fas fa-cards",
+        contentClasses: ["dialog-content"]
+      },
       content: htmlContent,
       buttons: [
         {

@@ -1,0 +1,58 @@
+<h3 class="mi-form-header"><i class="fas fa-folder-open"></i> Source</h3>
+<div class="mi-form-group">
+    <label>Folder Path</label>
+    <div class="mi-form-fields mi-picker-group">
+        <input type="text" name="folder-path" placeholder="Path to content">
+        <button type="button" class="picker-button icon"><i class="fas fa-search"></i></button>
+    </div>
+</div>
+
+<h3 class="mi-form-header"><i class="fas fa-book"></i> Journal Configuration</h3>
+
+<div class="mi-form-group">
+    <label>Import Mode</label>
+    <div class="mi-form-fields">
+        <select name="select_import_type">
+            <option value="0">Images as image page in one journal</option>
+            <option value="1">Image to page image in one journal</option>
+            <option value="2">Image to one text page in one journal</option>
+            <option value="3">All images in one text page</option>
+            <option value="7">All images in one text page side by side</option>
+            <option value="4">PDFs: convert to journal pages</option>
+            <option value="5">One video to one video page in one journal</option>
+            <option value="6">All videos to one text page in one journal</option>
+        </select>
+    </div>
+</div>
+
+<div class="mi-form-group">
+    <label>Journal Name</label>
+    <div class="mi-form-fields">
+        <input type="text" id="journal_name" value="Mass Import Journal">
+    </div>
+</div>
+
+<div class="mi-form-group">
+    <label>Target Folder</label>
+    <div class="mi-form-fields">
+        <input type="text" id="folder_name" value="Mass Import">
+    </div>
+</div>
+
+<h3 class="mi-form-header"><i class="fas fa-video"></i> Media Options</h3>
+<div class="mi-form-group">
+    <label>Dimensions Constraint</label>
+    <div class="mi-form-fields">
+        <input type="text" id="width_name" placeholder="Width (e.g. 500)">
+        <input type="text" id="height_name" placeholder="Height">
+    </div>
+</div>
+
+<div class="mi-form-group">
+    <label>Video Settings</label>
+    <div class="mi-form-fields">
+        <label class="mi-checkbox"><input type="checkbox" name="video_controls" checked> Controls</label>
+        <label class="mi-checkbox"><input type="checkbox" name="video_loop" checked> Loop</label>
+        <label class="mi-checkbox"><input type="checkbox" name="video_autoplay" checked> Autoplay</label>
+    </div>
+</div>

@@ -3,7 +3,7 @@ import { Common } from './common.js';
 export class JournalImporter {
 
   static async imageToJournal() {
-    const templatePath = `modules/mass-import/templates/image-to-journal-dialog.html`;
+    const templatePath = `modules/mass-import/templates/image-to-journal-dialog.hbs`;
     const htmlContent = await foundry.applications.handlebars.renderTemplate(templatePath, {});
     const sourceData = { activeSource: 'data', activeBucket: '', path: '' };
 
@@ -21,7 +21,12 @@ export class JournalImporter {
 
     // 2. Create Instance
     const dialog = new foundry.applications.api.DialogV2({
-      window: { title: "Mass Journal Import", icon: "fas fa-book-open" },
+      classes: ["mass-import"],
+      window: {
+        title: "Mass Journal Import",
+        icon: "fas fa-book-open",
+        contentClasses: ["dialog-content"]
+      },
       content: htmlContent,
       buttons: [
         {

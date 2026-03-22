@@ -1,0 +1,37 @@
+<h3 class="mi-form-header"><i class="fas fa-folder-open"></i> Sources</h3>
+
+<div class="mi-form-group">
+    <label>Card Images Folder</label>
+    <div class="mi-form-fields mi-picker-group">
+        <input type="text" name="folder-path" placeholder="Path to card faces">
+        <button type="button" class="picker-button-folder icon"><i class="fas fa-folder"></i></button>
+    </div>
+</div>
+
+<div class="mi-form-group">
+    <label>Card Back Image</label>
+    <div class="mi-form-fields mi-picker-group">
+        <input type="text" name="card-back-image" placeholder="Path to card back">
+        <button type="button" class="picker-button-image icon"><i class="fas fa-image"></i></button>
+    </div>
+</div>
+
+<h3 class="mi-form-header"><i class="fas fa-cards"></i> Deck Configuration</h3>
+
+<div class="mi-form-group">
+    <label>Deck Name</label>
+    <div class="mi-form-fields">
+        <input type="text" id="deck_name" value="New Imported Deck">
+    </div>
+</div>
+
+<div class="mi-form-group">
+    <label>Card Dimensions (px)</label>
+    <div class="mi-form-fields">
+        <label>W:</label>
+        <input type="number" id="card_width" placeholder="Auto" min="0">
+        <label>H:</label>
+        <input type="number" id="grid_height" placeholder="Auto" min="0">
+    </div>
+    <p class="mi-notes">Leave 0 or empty to use native image size.</p>
+</div>

@@ -1,3 +1,10 @@
+# 0.2.4
+- https://github.com/brunocalado/mass-import/issues/15
+- Universal Scene Rescaler Improved
+- [Fixed] CSS isolation — dialog styles are now scoped at the ApplicationV2 root element, preventing system CSS from making text unreadable
+- [Changed] Templates renamed from .html to .hbs
+- [Changed] Inline styles moved from scene template to CSS classes
+
 # 0.2.3
 - Switched to foundry.applications.apps.FilePicker.implementation; to work with the forge. https://github.com/brunocalado/mass-import/issues/14
 
