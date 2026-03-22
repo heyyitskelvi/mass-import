@@ -1,0 +1,46 @@
+<!-- Warning -->
+<div class="sr-alert-box">
+    <i class="fas fa-skull-crossbones"></i>
+    <div class="sr-alert-text">
+        <strong>Irreversible Action!</strong>
+        <span>This permanently alters Grid, Light, and Sound values. Repeated scaling may cause rounding errors.</span>
+    </div>
+</div>
+
+<!-- Scaling options -->
+<div class="sr-panel sr-form-grid">
+    <div class="sr-field-group">
+        <label>Mathematical Operation</label>
+        <select name="operation">
+            <option value="divide">Divide ( / )</option>
+            <option value="multiply">Multiply ( × )</option>
+        </select>
+        <small>How the scale factor is applied.</small>
+    </div>
+
+    <div class="sr-field-group">
+        <label>Scale Factor</label>
+        <input type="number" name="factor" value="5" min="0.1" max="100" step="0.1">
+        <small>e.g., Dividing by 5 turns distance 5 into 1.</small>
+    </div>
+
+    <div class="sr-field-group sr-full-width">
+        <label>New Grid Unit</label>
+        <input type="text" name="newUnit" value="m" placeholder="e.g., m, ft, in" maxlength="16">
+        <small>Replaces the unit label on the scene grid.</small>
+    </div>
+</div>
+
+<!-- Backup toggle -->
+<div class="sr-panel">
+    <div class="sr-toggle-group">
+        <label class="sr-switch" title="Create a backup copy of this scene before rescaling">
+            <input type="checkbox" name="backupScene">
+            <span class="sr-slider"></span>
+        </label>
+        <div class="sr-toggle-text">
+            <strong>Create Backup Scene</strong>
+            <span>Generates an exact duplicate before applying changes. Recommended to prevent data loss.</span>
+        </div>
+    </div>
+</div>

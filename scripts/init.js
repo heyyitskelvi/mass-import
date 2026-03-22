@@ -1,6 +1,7 @@
 import { DeckImporter } from './deck-importer.js';
 import { JournalImporter } from './journal-importer.js';
 import { SceneImporter } from './scene-importer.js';
+import { SceneRescaler } from './scene-rescaler.js';
 import { Common } from './common.js';
 
 const MODULE_ID = 'mass-import';
@@ -24,6 +25,7 @@ Hooks.once('init', () => {
     deck: () => DeckImporter.imageToDeck(),
     journal: () => JournalImporter.imageToJournal(),
     scene: () => SceneImporter.imageToScene(),
+    SceneRescaler: () => SceneRescaler.rescaleScene(),
     showImporters: () => {
         new foundry.applications.api.DialogV2({
             window: { title: "Mass Import Launcher", icon: "fas fa-file-import" },

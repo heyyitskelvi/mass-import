@@ -73,6 +73,7 @@ You can also call the importers directly via the browser console or your own scr
 MassImport.scene();   // Opens Scene Importer
 MassImport.journal(); // Opens Journal Importer
 MassImport.deck();    // Opens Deck Importer
+MassImport.SceneRescaler();
 ```
 
 ## 🧰 Included Macros
