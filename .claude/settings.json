@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(mv image-to-scene-dialog.html image-to-scene-dialog.hbs)",
-      "Bash(mv image-to-journal-dialog.html image-to-journal-dialog.hbs)",
-      "Bash(mv image-to-deck-dialog.html image-to-deck-dialog.hbs)"
-    ]
-  }
-}
