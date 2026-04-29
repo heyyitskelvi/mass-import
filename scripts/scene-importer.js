@@ -158,9 +158,8 @@ export class SceneImporter {
   }
 
   static async createScene(filePath, defaults) {
-    const tex = await foundry.canvas.loadTexture(filePath);
+    const tex = await TextureLoader.load(filePath);
     
-    // Safety check for dimensions
     const width = tex.width || 1920; 
     const height = tex.height || 1080;
 
@@ -168,8 +167,13 @@ export class SceneImporter {
       name: Common.splitPath(filePath),
       width: width,
       height: height,
-      level: { background: { src: filePath }},
-      grid: { ...defaults.grid },
+      background: {
+        src: filePath
+      },
+      grid: { 
+        ...defaults.grid,
+        size: defaults.grid.size || 100
+      },
       padding: 0.25,
       folder: defaults.folder,
       fog: { exploration: defaults.fogExploration },
@@ -179,5 +183,4 @@ export class SceneImporter {
     };
 
     return await Scene.create(sceneData);
-  }
 }
