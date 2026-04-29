@@ -41,7 +41,7 @@
       "folders": []
     }
   ],  
-  "url": "https://github.com/brunocalado/mass-import",
-  "manifest": "https://raw.githubusercontent.com/brunocalado/mass-import/main/module.json",
-  "download": "https://codeload.github.com/brunocalado/mass-import/zip/main"
+  "url": "https://github.com/heyyitskelvi/mass-import",
+  "manifest": "https://raw.githubusercontent.com/heyyitskelvi/mass-import/main/module.json",
+  "download": "https://codeload.github.com/heyyitskelvi/mass-import/zip/main"
 }
