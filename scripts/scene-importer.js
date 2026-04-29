@@ -168,7 +168,7 @@ export class SceneImporter {
       name: Common.splitPath(filePath),
       width: width,
       height: height,
-      background: { src: filePath },
+      level: { background: { src: filePath }},
       grid: { ...defaults.grid },
       padding: 0.25,
       folder: defaults.folder,
